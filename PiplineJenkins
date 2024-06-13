@@ -5,17 +5,8 @@ pipeline {
         maven 'Maven3' // Ensure 'Maven3' matches the name defined in Jenkins Global Tool Configuration
     }
 
-    stages {
-        stage('Build package') {
-            steps {
-                sh 'mvn package'
-            }
-        }
-        stage('Maven Install') {
-            steps {
-                sh 'mvn install'
-            }
-        }
+   
+ 
         stage('Deploy to Nexus') {
             steps {
                 sh 'mvn deploy'
