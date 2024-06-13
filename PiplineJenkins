@@ -2,14 +2,10 @@ pipeline {
     agent any
 
     tools {
-        maven 'M2_HOME'
+        maven 'Maven3' // Ensure 'Maven3' matches the name defined in Jenkins Global Tool Configuration
     }
 
     stages {
-     
-      
-     
-     
         stage('Build package') {
             steps {
                 sh 'mvn package'
@@ -20,9 +16,6 @@ pipeline {
                 sh 'mvn install'
             }
         }
-       
-       
-       
         stage('Deploy to Nexus') {
             steps {
                 sh 'mvn deploy'
@@ -32,13 +25,10 @@ pipeline {
             steps {
                 script {
                     sh 'sudo chmod 666 /var/run/docker.sock'
-                    def dockerImage=docker.build("azizbenismail/kaddem:9")
+                    def dockerImage = docker.build("azizbenismail/kaddem:9")
                 }
             }
         }
-
-     
-
         stage('Docker compose (FrontEnd BackEnd MySql)') {
             steps {
                 script {
@@ -47,9 +37,5 @@ pipeline {
                 }
             }
         }
-
-       
-   
-
     }
 }
