@@ -1,19 +1,61 @@
 pipeline {
-    agent any
+
+    agent {
+
+      node {
+
+        label 'maven'
+
+      }
+
+    }
 
     stages {
-        stage('Deploy to Nexus') {
+
+
+
+
+
+        stage ('build') {
+
             steps {
-                sh 'mvn deploy'
-            }
-        }
-    
-        stage('Docker compose (FrontEnd BackEnd MySql)') {
-            steps {
-                script {
-                    sh 'docker-compose up -d'
+
+                container ('maven') {
+
+                    sh 'mvn clean package'
+
                 }
-            }
+
+            }  
+
         }
+
+
+
+        stage ('deploy to Nexus') {
+
+            steps {
+
+                container ('maven') {
+
+                    sh 'mvn deploy -DaltDeploymentRepository=nexus::default::http://192.168.186.129:8081/repository/maven-snapshots/'
+
+                }   
+
+            }
+
+        }
+
+        stage ('upload') {
+
+            steps {
+
+                archiveArtifacts artifacts: 'target/*.jar', followSymlinks: false
+
+            }
+
+        }
+
     }
+
 }
