@@ -1,10 +1,7 @@
 pipeline {
     agent any
 
-    tools {
-        maven 'Maven3' // Ensure 'Maven3' matches the name defined in Jenkins Global Tool Configuration
-    }
-
+  
    
  
         stage('Deploy to Nexus') {
