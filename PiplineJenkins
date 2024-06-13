@@ -7,18 +7,11 @@ pipeline {
                 sh 'mvn deploy'
             }
         }
-        stage('Build Docker Image (Spring Part)') {
-            steps {
-                script {
-                    sh 'sudo chmod 666 /var/run/docker.sock'
-                    def dockerImage = docker.build("azizbenismail/kaddem:9")
-                }
-            }
-        }
+    
         stage('Docker compose (FrontEnd BackEnd MySql)') {
             steps {
                 script {
-                    sh 'sudo systemctl stop mysql'
+                s
                     sh 'docker-compose up -d'
                 }
             }
